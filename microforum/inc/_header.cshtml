@@ -1,0 +1,25 @@
+﻿<div class="header">
+    <div class="header_logotipo">
+        <a href="~/Default.cshtml"> <img src="~/images/minilogo.png" /> </a>
+    </div>
+    
+    
+    <!-- LINKS -->
+    <div class="header_links">
+       
+        @{ 
+            if (Session["user"] == null)
+            {
+                <p> <a href = "CriarConta.cshtml" > Criar Nova Conta</a> <a href = "" > Login </a></p>
+            }
+            else
+            {
+               <p> <a href = "" >Logout </a></p>
+            }
+        }
+        
+        
+        
+      
+    </div>
+</div>
