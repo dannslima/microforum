@@ -1,0 +1,16 @@
+﻿@{ 
+    Layout = "~/inc/_layout.cshtml";
+}
+
+<div class="wrapper">
+    @{ 
+        if(Session["user"] != null)
+        {
+            <p> até a próxima @Session["user"] </p>
+
+            //desconectar o utilizador 
+            Session.Abandon();
+            <a href="~/Default.cshtml">Voltar</a>
+        }
+    }
+</div>

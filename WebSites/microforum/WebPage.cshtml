@@ -1,0 +1,21 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+    </head>
+    <body>
+        @{ 
+            if (Session["user"] == null)
+            {
+                <p><a href="~/CriarConta.cshtml">Criar nova conta</a></p>
+
+            }
+            else
+            {
+               <p> Olá, @Session["User"]. | <a href = "" > Criar nova conta</a> Logout </p>
+
+
+            }
+          }
+    </body>
+</html>
