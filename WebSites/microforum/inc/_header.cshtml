@@ -12,11 +12,12 @@
             if (Session["user"] == null)
             {
                 <p> <a href = "CriarConta.cshtml"> Criar Nova Conta</a> 
-                <a href = "~/login.cshtml"> Login </a></p>
+                <a href="~/login.cshtml">Login</a>        
+        </p>
             }
             else
             {
-               <p> Ola , @Session["user"] |  <a href = "logout.cshtml" >Logout </a></p>
+               <p> Ola , @Session["user"] |  <a href="~/inc/logout.cshtml"> Logout </a></p>
             }
         }
         

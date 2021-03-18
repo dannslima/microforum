@@ -1,0 +1,52 @@
+﻿@{
+    Layout = "~/inc/_layout.cshtml";
+}
+
+<div class="wrapper">
+    @{ 
+        if (!IsPost)
+        {
+            //redireciona para a pagina inicial
+            Response.Redirect("~/Default.cshtml");
+        }
+
+        bool avancar = true;
+        //valores das variaveis do formulario de login
+        string utilizador = Request["text_utilizador"];
+        string password = Request["text_password"];
+
+        if(utilizador == "" || password =="")
+        {
+            <p> Preencha os campos corretamente</p>
+            <a href="~/login.cshtml">Voltar</a>
+            avancar = false;
+        }
+        if (avancar)
+        {
+            encriptar enc = new encriptar();
+            string pass = enc.CriarMD5(password);
+
+            //ligação a base de dados
+            Database bd = Database.Open("forum");
+            var dados = bd.Query("SELECT * FROM utilizadores WHERE nome = @0 AND palavra_passe = @1", utilizador, pass);
+
+            if (dados.Count() != 0)
+            {
+                //login com sucesso
+                Session["user"] = utilizador;
+                <p>Bem vindo, @Session["user"]</p>
+                <p><a href="~/Default.cshtml">Voltar</a></p>
+                
+                
+
+            }
+            else
+            {
+                //login não suceddido
+                <p>O Usuário Não existe ou senha está errada</p>
+                <p><a href="~/login.cshtml">Voltar</a></p>
+            }
+
+        }
+    }
+</div>

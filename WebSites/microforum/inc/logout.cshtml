@@ -11,6 +11,11 @@
             //desconectar o utilizador 
             Session.Abandon();
             <a href="~/Default.cshtml">Voltar</a>
+            }
+            else
+            {
+                Response.Redirect("~/Default.cshtml");
+            }
+           
         }
-    }
 </div>
