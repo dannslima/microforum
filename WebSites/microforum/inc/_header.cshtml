@@ -11,13 +11,15 @@
         @{ 
             if (Session["user"] == null)
             {
+                // NÃO EXISTE SESSÃO ATIVA
                 <p> <a href = "CriarConta.cshtml"> Criar Nova Conta</a> 
                 <a href="~/login.cshtml">Login</a>        
         </p>
             }
             else
-            {
-               <p> Ola , @Session["user"] |  <a href="~/inc/logout.cshtml"> Logout </a></p>
+            {   //EXISTE SESSÃO ATIVA
+               <p> Ola , @Session["user"] | <a href="~/inc/posts/NovoPost.cshtml">Novo Post</a>
+                 <a href="~/inc/logout.cshtml"> Logout </a></p>
             }
         }
         

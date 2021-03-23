@@ -34,10 +34,10 @@
             {
                 //login com sucesso
                 Session["user"] = utilizador;
+                Session["user"] = Convert.ToInt16(dados.FirstOrDefault().id_utilizador);
                 <p>Bem vindo, @Session["user"]</p>
                 <p><a href="~/Default.cshtml">Voltar</a></p>
-                
-                
+            
 
             }
             else

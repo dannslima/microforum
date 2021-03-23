@@ -4,5 +4,21 @@
         Response.Redirect("~/Default.cshtml");
     }
     Layout = "~/inc/_layout.cshtml";
-    <p>Olá, @Session["user"]</p>
+    
 }
+<div class="wrapper">
+    
+   
+    <p> @Session["user"], insira o novo post.</p>
+   
+    <form method="post" action="GravarNovoPost.cshtml">
+        <p>Título</p>
+        <input type="text" name="text_titulo" size="100" maxlength="100" />
+        <p>Mensagem</p>
+        <textarea cols="100" rows="6" name="text_mensagem"></textarea>    
+        <p></p>
+        <input type="submit" value="postar" />
+        
+    </form>
+
+</div>

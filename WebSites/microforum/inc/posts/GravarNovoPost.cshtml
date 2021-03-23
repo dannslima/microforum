@@ -1,0 +1,41 @@
+﻿@{ 
+    if(Session["user"] ==null)
+    {
+        Response.Redirect("~/Default.cshtml");
+    }
+    Layout = "~/inc/_layout.cshtml";
+}
+
+<div class="wrapper">
+    @{
+        if (!IsPost)
+        {
+            Response.Redirect("~/Default.cshtml");
+        }
+
+        //verifica se os campos foram preenchidos
+        Database bd = Database.Open("forum");
+        var id_post = bd.QueryValue("SELECT MAX(id_post) from posts");
+        if ((object)id_post == DBNull.Value)
+        {
+            id_post = 0;
+
+        }
+        else
+        {
+            id_post++;
+        }
+
+        int id_disponivel = Convert.ToInt16(id_post);
+        int id_utilizador = Convert.ToInt16(Session["id_user"]);
+        string titulo = Request["text_titulo"];
+        string mensagem = Request["text_mensagem"];
+        DateTime atualizacao = DateTime.Now;
+
+        bd.Execute("INSERT INTO posts VALUES (@0,@1,@2,@3,@4)", 
+            id_disponivel, id_utilizador, titulo, mensagem, atualizacao);
+        <p>Post registrado com sucesso</p>
+        <b><a href="~/Default.cshtml">Voltar</a></b>
+
+    }
+</div>
