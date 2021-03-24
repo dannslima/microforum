@@ -27,6 +27,10 @@
     padding:10px;
 }
 
+post.main{
+    width: 70%;
+    border: 1px solid;
+}
 .footer {
     padding: 10px;
     background-color: darkgray;

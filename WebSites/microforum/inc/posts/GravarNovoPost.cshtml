@@ -27,7 +27,7 @@
         }
 
         int id_disponivel = Convert.ToInt16(id_post);
-        int id_utilizador = Convert.ToInt16(Session["id_user"]);
+        int id_utilizador = Convert.ToInt16(Session["user"]);
         string titulo = Request["text_titulo"];
         string mensagem = Request["text_mensagem"];
         DateTime atualizacao = DateTime.Now;

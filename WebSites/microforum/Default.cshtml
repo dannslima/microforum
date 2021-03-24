@@ -4,5 +4,16 @@
 }
 
 <div class="wrapper">
-    <p>Conteúdo interno da página Web.</p>
+  @{
+      //APRESENTA OS POSTS DO FORUM
+      Database bd = Database.Open("forum");
+      var dados = bd.Query("SELECT * FROM posts LEFT JOIN utilizadores ON posts.id_utilizador = utilizadores.id_utilizador ORDER BY posts.atualizacao ASC");
+
+      foreach (var post in dados)
+      {
+        <div class="post_main">
+            <p>@post.titulo | @post.mensagem | @post.nome</p>
+        </div>
+      }
+}
 </div>
