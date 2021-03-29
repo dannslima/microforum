@@ -4,7 +4,7 @@
 }
 
 <div class="wrapper">
-  @{
+@{
       //APRESENTA OS POSTS DO FORUM
       Database bd = Database.Open("forum");
       var dados = bd.Query("SELECT * FROM posts LEFT JOIN utilizadores ON posts.id_utilizador = utilizadores.id_utilizador ORDER BY posts.atualizacao ASC");
@@ -12,8 +12,44 @@
       foreach (var post in dados)
       {
         <div class="post_main">
-            <p>@post.titulo | @post.mensagem | @post.nome</p>
+
+            <div class="post_titulo">
+                <!-- titulo do post-->
+                <p> @post.titulo</p>
+            </div>
+
+            <div class="post_mensagem">
+                <!-- mensagem-->
+                <p> @post.mensagem</p>
+            </div>
+
+           
+            
+            @{ 
+                DateTime data_post = Convert.ToDateTime(post.atualizacao);
+            }
+            
+            <div class="post_info">
+
+                <!-- informações da postagem-->
+                <p> @post.nome | [@data_post.ToShortDateString()] |  </p>
+            </div>
+            <!-- mecanismo de edição ou apagar a postagem-->
+            <div class="post_links">
+                <p>
+                    @{  
+                        if (Session["user"] !=null)
+                        { 
+                            if (post.nome == Session["user"].ToString())
+                            {
+                                <a href=""> Editar    |</a>  
+                                 <a href = "~/inc/posts/EliminarPost.cshtml?p=@post.id_post"> Apagar </a>
+                            }
+                        }
+                     }
+                </p>
+            </div>
         </div>
-      }
+                        }
 }
 </div>
