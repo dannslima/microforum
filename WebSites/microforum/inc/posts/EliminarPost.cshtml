@@ -7,14 +7,15 @@
 
 }
 <div class="wrapper">
-    @{ 
-        if(Request["p"] != null)
+    @{
+        if (Request["p"] != null)
         {
             int id_post = Convert.ToInt16(Request["p"]);
             Database db = Database.Open("forum");
             db.Execute("DELETE FROM post WHERE id_post=" + id_post);
+            <p>Post Eliminado com sucesso!</p>
         }
     }
 
-    <p>Post Eliminado com sucesso!</p> 
+    
 </div>
