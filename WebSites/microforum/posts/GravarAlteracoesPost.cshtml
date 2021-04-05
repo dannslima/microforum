@@ -1,0 +1,45 @@
+﻿@{
+    if (Session["user"] == null)
+    {
+        Response.Redirect("~/Default.cshtml");
+    }
+    Layout = "~/inc/_layout.cshtml";
+}
+
+<div class="wrapper">
+
+    @{
+        if (Session["id_post"] != null)
+        {
+            //editar os dados do post
+            int id_post = Convert.ToInt16(Session["id_post"]);
+            Session.Remove("id_post");
+
+            string texto_titulo = Request["text_titulo"];
+            string texto_mensagem = Request["text_mensagem"];
+
+            if (texto_titulo == "" || texto_mensagem == "")
+            {
+                Response.Redirect("~/Default.cshtml");
+            }
+
+            Database bd = Database.Open("forum");
+            bd.Execute("UPDATE posts SET " +
+                       "titulo = @0, " +
+                       "mensagem = @1, " +
+                       "atualizacao = @2 " +
+                       "WHERE id_post = @3",
+                       texto_titulo,
+                       texto_mensagem,
+                       DateTime.Now,
+                       id_post);
+            <p>Post editado com sucesso.</p>
+            <a href="~/Default.cshtml">Voltar</a>
+        }
+        else
+        {
+            Response.Redirect("~/Default.cshtml");
+        }
+    }
+
+</div>

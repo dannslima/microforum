@@ -1,10 +1,9 @@
-﻿@{
+﻿@{ 
     Layout = "~/inc/_layout.cshtml";
- }
+}
+<div class="wrapper">
 
-<div class=" wrapper">
-
-            @{ 
+    @{ 
         bool apresentar_formulario = true;
         bool avancar = true;
 
@@ -12,32 +11,31 @@
         {
             //tratamento dos dados para criar nova conta
 
-            string utilizador = Request.Form["text_utilizador"];
-            string password_1 = Request.Form["text_password_1"];
-            string password_2 = Request.Form["text_password_2"];
+            string utilizador = Request["text_utilizador"];
+            string password_1 = Request["text_password_1"];
+            string password_2 = Request["text_password_2"];
 
-
-            // VERIFICA SE OS CAMPOS FORAM PREENCHIDOS
+            //-----------------------------------------------------------
+            //verificações - verifica se os campos foram preenchidos
             if (utilizador == "" || password_1 == "" || password_2 == "")
             {
-                <p>Por favor! Insira todos os campos</p>
-
+                <p>Por favor insira todos os dados necessários.</p>
                 avancar = false;
             }
 
-            //verifica se as senhas correspondem
-
+            //-----------------------------------------------------------
+            //verifica se as passwords correspondem
             if (avancar)
             {
                 if (password_1 != password_2)
                 {
-                    <p>As senhas devem corresponder</p>
-
+                    <p>As passwords não correspondem.</p>
                     avancar = false;
                 }
             }
 
-            //verificar se usuário já tem cadastro
+            //-----------------------------------------------------------
+            //verificar se o utilizador já se encontra registado
             if (avancar)
             {
                 Database bd = Database.Open("forum");
@@ -45,50 +43,73 @@
 
                 if (dados.Count() != 0)
                 {
-                    <p>Já existe usuario com esse mesmo nome</p>
-                    
+                <p>Já existe um utilizador com o mesmo nome.</p>
                     avancar = false;
                 }
-
             }
 
-            //***********************************
+            //-----------------------------------------------------------
             if (avancar)
             {
-                //registro do usuario no banco
+                //registo do utilizador na base de dados
+
+                //id_utilizador disponível
+                Database bd = Database.Open("forum");
+                var id_disponivel = bd.QueryValue("SELECT MAX(id_utilizador) FROM utilizadores");
+
+
+                //tipo_utilizador = 0 -> ADMIN
+                //tipo_utilizador = 1 -> MEMBRO
+                int tipo_utilizador = 1;
+
+                if ((object)id_disponivel == DBNull.Value)
+                {
+                    id_disponivel = 0;
+                    tipo_utilizador = 0;
+                }
+                else
+                {
+                    id_disponivel++;
+                }
+
+                //gravar o utilizador na base de dados
                 encriptar enc = new encriptar();
                 string password_encriptada = enc.CriarMD5(password_1);
-                Database bd = Database.Open("forum");
-                int contador = bd.QueryValue("select count(*) from utilizadores ");
-                bd.Execute("INSERT INTO utilizadores (id_utilizador,nome , palavra_passe) values (@0,@1,@2)", contador, utilizador, password_encriptada);
+                bd.Execute("INSERT INTO utilizadores VALUES(@0, @1, @2, @3)", 
+                           id_disponivel, 
+                           utilizador, 
+                           password_encriptada,
+                           tipo_utilizador);
 
-
-
-                <p>teste</p>
-
+                //indica que foi gravado com sucesso e apresenta ligação para a página inicial
+                <p>Utilizador registado com sucesso.</p>
+                <a href="Default.cshtml" >Voltar</a>
+                apresentar_formulario = false;
             }
         }
-        // apresentar o formmulario de criação da nova conta
+
+        //-----------------------------------------------------
+        //apresentar o formulário de criação da nova conta
         if (apresentar_formulario)
         {
-            <h2> Criar Nova Conta de Usuário</h2>
+            <h2>CRIAR NOVA CONTA DE UTILIZADOR</h2>
             <form method="post" action="">
 
-                <p>Nome de usuario</p>
+                <p>Nome de utilizador:</p>
                 <input type="text" name="text_utilizador" size="30" maxlength="30" />
 
-                <p>Password</p>
-                <input type="text" name="text_password_1" size="30" maxlength="30" />
+                <p>Password:</p>
+                <input type="password" name="text_password_1" size="30" maxlength="30" />
 
-                <p>Reinsira o Password</p>
-                <input type="text" name="text_password_2" size="30" maxlength="30" />
+                <p>Reintroduza a password:</p>
+                <input type="password" name="text_password_2" size="30" maxlength="30" />
 
                 <p></p>
                 <input type="submit" value="Criar nova conta" />
 
             </form>
+            }
+
         }
-    }
 
 </div>
-

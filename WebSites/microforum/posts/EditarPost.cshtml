@@ -1,0 +1,38 @@
+﻿@{
+    if (Session["user"] == null)
+    {
+        Response.Redirect("~/Default.cshtml");
+    }
+    Layout = "~/inc/_layout.cshtml";
+}
+
+<div class="wrapper">
+
+    @{
+        if (Session["id_post"] != null)
+        {
+            int id_post = Convert.ToInt16(Session["id_post"]);
+            Database db = Database.Open("forum");
+            var dados = db.Query("SELECT * FROM posts WHERE id_post = @0", id_post);
+            
+            <form method="post" action="GravarAlteracoesPost.cshtml">
+
+                <p>Título:</p>
+                <input type="text" name="text_titulo" value="@dados.FirstOrDefault().titulo" size="100" maxlength="100" />
+
+                <p>Mensagem:</p>
+                <textarea cols="100" rows="6" name="text_mensagem">@dados.FirstOrDefault().mensagem</textarea>
+
+                <p></p>
+                <input type="submit" value="Editar" />
+
+            </form>
+
+        }
+        else
+        {
+            Response.Redirect("~/Default.cshtml");
+        }
+    }
+
+</div>

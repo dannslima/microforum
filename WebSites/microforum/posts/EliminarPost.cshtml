@@ -1,26 +1,29 @@
 ﻿@{
     if (Session["user"] == null)
     {
-          Response.Redirect("~/Default.cshtml");
+        Response.Redirect("~/Default.cshtml");
     }
     Layout = "~/inc/_layout.cshtml";
-
 }
+
 <div class="wrapper">
-    @{
+
+    @{ 
+
+        <p>@Session["id_post"]</p>
+
         if (Session["id_post"] != null)
         {
             int id_post = Convert.ToInt16(Session["id_post"]);
+            Session.Remove("id_post");
             Database db = Database.Open("forum");
             db.Execute("DELETE FROM posts WHERE id_post=" + id_post);
-            <p>Post Eliminado com sucesso!</p>
+            <p>Post eliminado com sucesso.</p>
         }
         else
         {
             Response.Redirect("~/Default.cshtml");
-        
         }
-    }
+   }
 
-    
 </div>

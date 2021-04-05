@@ -10,20 +10,18 @@ using System.Text;
 /// </summary>
 public class encriptar
 {
-   
-       public string CriarMD5(string password)
-        {
-            MD5 encriptador = MD5.Create();
-            byte[] inicial = Encoding.ASCII.GetBytes(password);
-            byte[] final = encriptador.ComputeHash(inicial);
+    public string CriarMD5(string password)
+    {
+        MD5 encriptador = MD5.Create();
+        byte[] inicial = Encoding.ASCII.GetBytes(password);
+        byte[] final = encriptador.ComputeHash(inicial);
 
-            StringBuilder str = new StringBuilder();
-            for(int i =0; i<final.Length; i++)
-            {
+        StringBuilder str = new StringBuilder();
+        for (int i = 0; i < final.Length; i++)
+        {
             str.Append(final[i].ToString("X2"));
-         
-            }
-            return str.ToString();
         }
-    
+
+        return str.ToString();
+    }
 }

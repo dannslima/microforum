@@ -1,55 +1,69 @@
 ﻿@{ 
-
     Layout = "~/inc/_layout.cshtml";
 }
 
 <div class="wrapper">
-@{
-      //APRESENTA OS POSTS DO FORUM
-      Database bd = Database.Open("forum");
-      var dados = bd.Query("SELECT * FROM posts LEFT JOIN utilizadores ON posts.id_utilizador = utilizadores.id_utilizador ORDER BY posts.atualizacao ASC");
+    
+    @{
+        //apresenta os posts do forum
+        Database bd = Database.Open("forum");
+        var dados = bd.Query("SELECT * FROM posts LEFT JOIN utilizadores ON posts.id_utilizador = utilizadores.id_utilizador ORDER BY posts.atualizacao ASC");
+        //verifica se existe posts
+        if (dados.Count() == 0)
+        {
+            //não existem posts no forum
+            <p>Não existem posts no fórum.</p>
+        }
 
-      foreach (var post in dados)
-      {
-        <div class="post_main">
+        else
+        {
+            foreach (var post in dados)
+            {
+            <div class="post_main">
+                <!-- titulo do post -->
+                <div class="post_titulo">
+                    <p>@post.titulo</p>
+                </div>
 
-            <div class="post_titulo">
-                <!-- titulo do post-->
-                <p> @post.titulo</p>
-            </div>
+                <!-- mensagem do post -->
+                <div class="post_mensagem">
+                    <p>@post.mensagem</p>
+                </div>
 
-            <div class="post_mensagem">
-                <!-- mensagem-->
-                <p> @post.mensagem</p>
-            </div>
+                <!-- informações do post -->
+                @{ 
+                    DateTime data_post = Convert.ToDateTime(post.atualizacao);
+                }
+                <div class="post_info">
+                    <p>@post.nome - [@data_post.ToShortDateString()] - [@data_post.ToShortTimeString()]</p>
+                </div>
 
-           
-            
-            @{ 
-                DateTime data_post = Convert.ToDateTime(post.atualizacao);
-            }
-            
-            <div class="post_info">
-
-                <!-- informações da postagem-->
-                <p> @post.nome | [@data_post.ToShortDateString()] |  </p>
-            </div>
-            <!-- mecanismo de edição ou apagar a postagem-->
-            <div class="post_links">
-                <p>
-                    @{  
-                        if (Session["user"] !=null)
-                        { 
-                            if (post.nome == Session["user"].ToString())
+                <!-- mecanismo de edição ou eliminação do post -->
+                <div class="post_links">
+                        @{                  
+                            if (Session["user"] != null)
                             {
-                                <a href=""> Editar    |</a>  
-                                 <a href = "~/inc/posts/EliminarPost.cshtml"> Apagar </a>
+                                if (post.nome == Session["user"].ToString() || Convert.ToBoolean(Session["admin"]))
+                                {
+                                    Session["id_post"] = post.id_post;
+                                    <p><a href="~/posts/EditarPost.cshtml">Editar</a> | <a href="~/posts/EliminarPost.cshtml">Eliminar</a></p>
+                                }
                             }
-                        }
-                     }
-                </p>
+                       }
+                </div>
             </div>
-        </div>
-                        }
-}
+           }
+       }
+   }
+
+
 </div>
+
+@{ 
+    /*
+    div = wrapper post
+        div -> titulo
+        div -> mensagem
+        div -> informações do post
+    */
+}

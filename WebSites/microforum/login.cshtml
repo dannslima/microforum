@@ -3,26 +3,28 @@
 }
 
 <div class="wrapper">
-    @{
-        //verifica se já existe um usuario aqui
+
+    @{ 
+
+        //verifica se já existe um utilizador ativo
         if (Session["user"] != null)
         {
-            <p>O usuario @Session["user"] está ativo</p>
-            <p>Clique em <a href="~/inc/logout.cshtml">Aqui</a>
-    para sair da sessão</p>
+            <p>O utilizador @Session["user"] está ativo.</p>
+            <p>Clique <a href="~/logout.cshtml">AQUI</a> para sair da sessão.</p>
         }
         else
         {
-            <form method="post" action="~/Verificar_login.cshtml">
-                <p>utilizador</p>
-                <input type="text" name="text_utilizador" size="30"
-                       maxlength="30"/>
-                <p>Password</p>
-                <input type="password" name="text_password" size="30"
-                       maxlength="30" />
-                <p><input type="submit" value="Entrar"/> </p>
+            <form method="post" action="~/login_verificar.cshtml">
+                <p>Utilizador:</p>
+                <input type="text" name="text_utilizador" size="30" maxlength="30"/>
+
+                <p>Password:</p>
+                <input type="password" name="text_password" size="30" maxlength="30" />
+
+                <p><input type="submit" value="Entrar" /></p>
             </form>
         }
+
     }
-    
+
 </div>

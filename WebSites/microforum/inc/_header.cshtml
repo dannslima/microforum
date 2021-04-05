@@ -1,30 +1,28 @@
 ﻿<div class="header">
+
+    <!-- logotipo -->
     <div class="header_logotipo">
-        <a href="~/Default.cshtml"> <img src="~/images/minilogo.png" /> </a>
-        
+        <a href="~/Default.cshtml"><img src="~/images/micro_forum_logo.png" /></a>
     </div>
-    
-    
-    <!-- LINKS -->
+
+    <!-- link -->
     <div class="header_links">
-       
-        @{ 
-            if (Session["user"] == null)
-            {
-                // NÃO EXISTE SESSÃO ATIVA
-                <p> <a href = "CriarConta.cshtml"> Criar Nova Conta</a> 
-                <a href="~/login.cshtml">Login</a>        
-        </p>
+
+        @{
+            if(Session["user"] == null)
+            { 
+                //não existe sessão ativa
+                <p> <a href="~/CriarConta.cshtml">Criar nova conta</a> | <a href="~/login.cshtml">Login</a> </p>
             }
             else
-            {   //EXISTE SESSÃO ATIVA
-               <p> Ola , @Session["user"] | <a href="~/inc/posts/NovoPost.cshtml">Novo Post</a>
-                 <a href="~/inc/logout.cshtml"> Logout </a></p>
+            {
+                //existe sessão ativa
+                <p>Olá, @Session["user"] | 
+                <a href="~/posts/NovoPost.cshtml">Novo post</a> | 
+                <a href="~/logout.cshtml">Logout</a></p>
             }
         }
-        
-        
-        
-      
+
     </div>
+
 </div>
