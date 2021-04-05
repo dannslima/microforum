@@ -7,21 +7,24 @@
 
     <!-- link -->
     <div class="header_links">
-
-        @{
-            if(Session["user"] == null)
-            { 
-                //não existe sessão ativa
-                <p> <a href="~/CriarConta.cshtml">Criar nova conta</a> | <a href="~/login.cshtml">Login</a> </p>
+        <div class="header_menu">
+            @{
+                if (Session["user"] == null)
+                {
+                    //não existe sessão ativa
+                    <p> <a href="~/CriarConta.cshtml">Criar nova conta</a> | <a href="~/login.cshtml">Login</a> </p>
+                }
+                else
+                {
+                    //existe sessão ativa
+                    <p>
+                        Olá, @Session["user"] |
+                        <a href="~/posts/NovoPost.cshtml">Novo post</a> |
+                        <a href="~/logout.cshtml">Logout</a>
+                    </p>
+                }
             }
-            else
-            {
-                //existe sessão ativa
-                <p>Olá, @Session["user"] | 
-                <a href="~/posts/NovoPost.cshtml">Novo post</a> | 
-                <a href="~/logout.cshtml">Logout</a></p>
-            }
-        }
+        </div>
 
     </div>
 
